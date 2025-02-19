@@ -6,11 +6,12 @@ export async function getTennant() {
         headers: await headers()
     })
 
-    const organization = await auth.api.getFullOrganization({
+    const organziations = await auth.api.listOrganizations({
         headers: await headers()
     })
+
     return {
         userId: session?.user.id,
-        organizationId: organization?.id
+        organizationId: organziations[0]?.id
     }
 }
