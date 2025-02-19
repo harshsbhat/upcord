@@ -1,16 +1,12 @@
 import { auth } from "@/lib/auth"
+import { getTennant } from "@/lib/getTennant"
 import { headers } from "next/headers"
  
 export default async function ServerComponent() {
-    const session = await auth.api.getSession({
-        headers: await headers()
-    })
-    if(!session) {
-        return <div>Not authenticated</div>
-    }
+    const user =  await getTennant()
     return (
         <div>
-            <h1>Welcome {session.user.name}</h1>
+            <h1>Welcome {JSON.stringify(user)}</h1>
         </div>
     )
 }
