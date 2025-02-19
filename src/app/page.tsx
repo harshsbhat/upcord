@@ -1,13 +1,12 @@
-
-"use client"
-import { redirect } from "next/navigation";
-import { useListOrganizations } from "@/lib/auth-client"
-
-export default function MyApp() {
-  const { data: organizations } = useListOrganizations()
-	return (
-    <div>
-      {JSON.stringify(organizations)}
-    </div>
-	);
+import { redirect } from "next/navigation"
+import { getTennant } from "@/lib/getTennant"
+ 
+export default async function ServerComponent() {
+    const { organizationId } = await getTennant()
+    if(organizationId){
+        redirect("/threads")
+    }
+    else {
+        redirect("/onboarding")
+    }
 }
