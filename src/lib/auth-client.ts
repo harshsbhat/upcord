@@ -7,7 +7,7 @@ export const {
     signUp, 
     useSession, 
     organization,
-    useListOrganizations
+    useListOrganizations,
 } =  createAuthClient({
     baseURL: process.env.BETTER_AUTH_URL,
     plugins: [ 
