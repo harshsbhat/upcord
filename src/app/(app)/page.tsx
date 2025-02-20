@@ -1,8 +1,12 @@
-export default function HelloWorld() {
-    return (
-      <div>
-        <h1 className="text-4xl font-bold text-gray-800">PAGE! 🌍</h1>
-      </div>
-    );
-  }
-  
+import { redirect } from "next/navigation"
+import { getTennant } from "@/lib/getTennant"
+ 
+export default async function Home() {
+    const { organizationId } = await getTennant()
+    if(organizationId){
+      redirect("/threads")
+    }
+    else {
+          redirect("/onboarding")
+      }
+ }
