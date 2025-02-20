@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
+import { pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 
 export const workspaces = pgTable("workspaces", {
     id: varchar("id", { length: 256 }).primaryKey(),
@@ -7,5 +7,5 @@ export const workspaces = pgTable("workspaces", {
     // org id
     tenantId: varchar("tenant_id", { length: 256 }).notNull(),
     createdAt: timestamp("created_at").notNull(),
-    deletedAt: timestamp("deleted_at").notNull(),
+    deletedAt: timestamp("deleted_at"),
   });
