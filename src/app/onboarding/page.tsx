@@ -15,7 +15,7 @@ export default function Onboarding() {
       <Card className="max-w-md w-full">
         <CardHeader>
           <CardTitle>Welcome Onboard!</CardTitle>
-          <CardDescription>Let's get you set up</CardDescription>
+          <CardDescription>Let us get you set up</CardDescription>
         </CardHeader>
         <CardContent>
           <OnboardingForm />

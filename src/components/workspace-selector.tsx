@@ -13,7 +13,7 @@ export function WorkspaceSelector() {
   const [value, setValue] = React.useState("")
   const workspaceList = useListOrganizations()
 
-  const workspaces = workspaceList.data || []
+  const workspaces = workspaceList.data ?? []
 
   const handleCreateWorkspace = () => {
     window.location.href = "/create-workspace"
