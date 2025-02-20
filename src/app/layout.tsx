@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { AppSidebar } from "@/components/app-sidebar"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { Theme } from "@radix-ui/themes";
@@ -17,11 +19,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
+      
       <body>
-      <Theme>
+      <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="flex flex-col">
+      <SidebarTrigger />
         <TRPCReactProvider>{children}</TRPCReactProvider>
-        </Theme>
         <Toaster />
+      </SidebarInset>
+      </SidebarProvider>
       </body>
     </html>
   );
