@@ -5,17 +5,17 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-import { organization } from "@/lib/auth-client"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import Link from "next/link"
 
-export default function OrganizationOnboarding() {
+export default function Onboarding() {
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex h-screen items-center justify-center bg-gray-50">
       <Card className="max-w-md w-full">
         <CardHeader>
-          <CardTitle>Organization Onboarding</CardTitle>
-          <CardDescription>Create your organization to get started</CardDescription>
+          <CardTitle>Welcome Onboard!</CardTitle>
+          <CardDescription>Let's get you set up</CardDescription>
         </CardHeader>
         <CardContent>
           <OnboardingForm />
@@ -30,35 +30,26 @@ function OnboardingForm() {
   const [name, setName] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const generateSlug = (name: string) => {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-")
-    return `${name.toLowerCase().replace(/\s+/g, "-")}-${timestamp}`
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleCreateOrganization = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!name.trim()) return
 
     setIsSubmitting(true)
 
     try {
-      await organization.create({
-        name,
-        slug: generateSlug(name),
-        logo: "",
-      })
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       toast({
         description: "Organization created successfully!",
       })
 
       setTimeout(() => {
-        window.location.href = "/threads"
-      }, 1000) // Delay for better UX
+        window.location.href = "/"
+      }, 1000)
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Failed to create organization. Contact harsh121102@gmail.com.",
+        description: "Failed to create organization. Please try again.",
       })
     } finally {
       setIsSubmitting(false)
@@ -66,25 +57,33 @@ function OnboardingForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleCreateOrganization} className="space-y-4">
       <Input
         id="name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-        placeholder="Enter organization name"
+        placeholder="Enter your name"
         className="w-full"
       />
-      <Button type="submit" className="w-full" disabled={isSubmitting}>
-        {isSubmitting ? (
-          <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Creating...
-          </>
-        ) : (
-          "Create Organization"
-        )}
-      </Button>
+
+      <div className="space-y-3">
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creating
+            </>
+          ) : (
+            "Create Organization"
+          )}
+        </Button>
+        <div>
+        <Link href="/threads" className="text-neutral-600 text-sm">
+          Skip if you want to join other workspace.
+        </Link>
+        </div>
+      </div>
     </form>
   )
 }

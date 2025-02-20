@@ -11,11 +11,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { signOut } from "@/lib/auth-client"
+import { signOut, useSession } from "@/lib/auth-client"
 
 export function UserNav() {
   const [isLoggingOut, setIsLoggingOut] = useState(false)
-
+  const session = useSession()
   const handleLogout = async () => {
     setIsLoggingOut(true)
     try {
@@ -38,14 +38,14 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-full flex justify-start pl-2">
           <User className="mr-2 h-8 w-8 text-gray-500" />
-          <span className="text-sm font-medium">Harsh Bhat</span>
+          <span className="text-sm font-medium">{session.data?.user.name}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Harsh Bhat</p>
-            <p className="text-xs leading-none text-muted-foreground">harsh@upcord.io</p>
+            <p className="text-sm font-medium leading-none">{session.data?.user.name}</p>
+            <p className="text-xs leading-none text-muted-foreground">{session.data?.user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
