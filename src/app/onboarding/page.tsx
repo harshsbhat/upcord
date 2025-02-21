@@ -79,7 +79,7 @@ function OnboardingForm() {
           )}
         </Button>
         <div>
-        <Link href="/threads" className="text-neutral-600 text-sm">
+        <Link href="/cords" className="text-neutral-600 text-sm">
           Skip if you want to join other workspace.
         </Link>
         </div>

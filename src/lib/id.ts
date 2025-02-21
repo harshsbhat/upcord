@@ -3,30 +3,8 @@ import baseX from "base-x";
 const b58 = baseX("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz");
 
 const prefixes = {
-  key: "key",
-  policy: "pol",
-  api: "api",
-  request: "req",
   workspace: "ws",
-  keyAuth: "ks", // keyspace
-  vercelBinding: "vb",
-  role: "role",
-  test: "test", // for tests only
-  ratelimitNamespace: "rlns",
-  ratelimitOverride: "rlor",
-  permission: "perm",
-  secret: "sec",
-  headerRewrite: "hrw",
-  gateway: "gw",
-  llmGateway: "lgw",
-  webhook: "wh",
-  event: "evt",
-  reporter: "rep",
-  webhookDelivery: "whd",
-  identity: "id",
-  ratelimit: "rl",
-  auditLogBucket: "buk",
-  auditLog: "log",
+  channel: "ch"
 } as const;
 
 export function newId<TPrefix extends keyof typeof prefixes>(prefix: TPrefix) {

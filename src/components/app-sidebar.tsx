@@ -1,5 +1,6 @@
 import {
     Archive,
+    Cable,
     CheckCircle,
     Clock,
     Folder,
@@ -38,7 +39,7 @@ import {
             <SidebarGroupLabel>Cords</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <NavItem icon={Inbox} label="All cords" href="#all-cords" />
+                <NavItem icon={Inbox} label="All cords" href="/cords" />
                 <NavItem icon={User} label="Your cords" href="#your-cords" />
               </SidebarMenu>
             </SidebarGroupContent>
@@ -74,7 +75,7 @@ import {
         <SidebarFooter>
           <SidebarMenu>
             <NavItem icon={LayoutGrid} label="Browse" href="#browse" />
-            <NavItem icon={Folder} label="Projects" href="#projects" />
+            <NavItem icon={Cable} label="Channels" href="/channels" />
             <NavItem icon={Settings} label="Settings" href="#settings" />
           </SidebarMenu>
           <SidebarSeparator />

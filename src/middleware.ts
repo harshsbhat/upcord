@@ -13,7 +13,7 @@ export const config = {
 	matcher: [
 		"/dashboard",
 		"/",
-		"/threads(.*)",
+		"/cords(.*)",
 		"/onboarding",
 	],
 };
