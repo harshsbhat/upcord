@@ -1,12 +1,12 @@
-import { getTennant } from "@/lib/getTennant"
+import { getTenant } from "@/lib/getTenant"
 import ChannelsPage from "./channel"
 import { db } from "@/server/db"
 
 export default async function ChannelsMain() {
-    const tennantId = await getTennant()
+    const tenantId = await getTenant()
     const workspace = await db.query.workspaces.findFirst({
         where: (table, { and, eq, isNull }) =>
-            and(eq(table.tenantId, tennantId), isNull(table.deletedAt)),
+            and(eq(table.tenantId, tenantId), isNull(table.deletedAt)),
     })
 
     const channels = await db.query.channels.findMany({

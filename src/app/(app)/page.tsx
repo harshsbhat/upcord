@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation"
-import { getTennant } from "@/lib/getTennant"
+import { getTenant } from "@/lib/getTenant"
 import { db, schema } from "@/server/db"
 import { newId } from "@/lib/id"
 
 export default async function Home() {
-    const userId = await getTennant()
+    const userId = await getTenant()
     const personalWorkspace = await db.query.workspaces.findFirst({
       where: (table, { and, eq, isNull }) =>
         and(eq(table.tenantId, userId), isNull(table.deletedAt)),
