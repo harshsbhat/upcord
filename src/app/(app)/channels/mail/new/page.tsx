@@ -1,86 +1,49 @@
 "use client"
 
 import { useState } from "react"
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle2, CopyIcon, RefreshCw } from "lucide-react"
+import DomainInput from "./domainName"
 
-export default function DomainVerificationMinimal() {
-  const [domain, setDomain] = useState("")
-  const [verifying, setVerifying] = useState(false)
-  const [verified, setVerified] = useState(false)
+export default function DomainSetup() {
+  const [setupType, setSetupType] = useState<"sending" | "forwarding" | null>(null)
 
-  const handleVerify = () => {
-    setVerifying(true)
-    setTimeout(() => {
-      setVerifying(false)
-      setVerified(true)
-    }, 2000)
+  if (setupType) {
+    return <DomainInput />
   }
 
-  const dnsRecords = [
-    { type: "MX", value: "mx.example.com" },
-    { type: "TXT (DKIM)", value: "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC..." },
-    { type: "TXT (SPF)", value: "v=spf1 include:_spf.example.com ~all" },
-    { type: "TXT (DMARC)", value: "v=DMARC1; p=none; rua=mailto:dmarc@example.com", recommended: true },
-  ]
-
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <Card className="w-1/2">
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-2xl font-bold">Domain Email Setup</h1>
+        <p className="text-gray-600 mt-2">Choose how you want to configure your domain for email usage.</p>
+      </div>
+
+      {/* Cards */}
+      <Card className="w-96">
         <CardHeader>
-          <CardTitle>Verify Your Domain</CardTitle>
+          <CardTitle>Setup Sending Emails</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
-            <div>
-              <Label htmlFor="domain">Domain</Label>
-              <Input id="domain" placeholder="example.com" value={domain} onChange={(e) => setDomain(e.target.value)} />
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Required DNS Records</h3>
-              <ul className="space-y-4">
-                {dnsRecords.map((record, index) => (
-                  <li key={index} className={record.recommended ? "opacity-70" : ""}>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{record.type}</span>
-                      {record.recommended && <span className="text-sm text-muted-foreground">Recommended</span>}
-                    </div>
-                    <div className="flex mt-1">
-                      <Input value={record.value} readOnly className="flex-grow" />
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="ml-2"
-                        onClick={() => navigator.clipboard.writeText(record.value)}
-                      >
-                        <CopyIcon className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                {verified && <CheckCircle2 className="text-green-500 mr-2" />}
-                <span>{verified ? "Domain verified" : "Domain not verified"}</span>
-              </div>
-              <Button onClick={handleVerify} disabled={verifying || verified}>
-                {verifying ? (
-                  <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <CheckCircle2 className="mr-2 h-4 w-4" />
-                )}
-                {verifying ? "Verifying..." : "Verify Domain"}
-              </Button>
-            </div>
-          </div>
+          <p className="text-gray-600">Configure DNS records to send emails from your domain.</p>
+          <Button className="mt-4 w-full" onClick={() => setSetupType("sending")}>
+            Get Started
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="w-96">
+        <CardHeader>
+          <CardTitle>Setup Email Forwarding</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-600">Set up email forwarding to receive emails in your inbox.</p>
+          <Button className="mt-4 w-full" onClick={() => setSetupType("forwarding")}>
+            Get Started
+          </Button>
         </CardContent>
       </Card>
     </div>
   )
 }
-
