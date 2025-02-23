@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, timestamp, varchar, json } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { workspaces } from "./workspaces";
 
 export const domains = pgTable("domains", {

@@ -1,27 +1,35 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Globe, Loader2 } from "lucide-react"
-import { z } from "zod"
+import type React from "react";
+import { useState } from "react";
+import { Globe, Loader2 } from "lucide-react";
+import { z } from "zod";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
-import { api } from "@/trpc/react"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { api } from "@/trpc/react";
 
-const domainSchema = z.string().regex(
-  /^(?!:\/\/)([a-zA-Z0-9-_]{1,63}\.)+[a-zA-Z]{2,63}$/, 
-  "Invalid domain name"
-)
+const domainSchema = z
+  .string()
+  .regex(
+    /^(?!:\/\/)([a-zA-Z0-9-_]{1,63}\.)+[a-zA-Z]{2,63}$/,
+    "Invalid domain name",
+  );
 
 export default function Client() {
   const [domain, setDomain] = useState("");
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
-  
+
   const createDomain = api.domains.create.useMutation({
     onSuccess: async (data) => {
       toast({
@@ -52,6 +60,7 @@ export default function Client() {
       createDomain.mutate({ domain });
       setError(null);
     } catch (err) {
+      console.error(err)
       setError("Invalid domain");
     }
   };
@@ -84,8 +93,16 @@ export default function Client() {
                       required
                     />
                   </div>
-                  <Button type="submit" size="sm" disabled={createDomain.isPending}>
-                    {createDomain.isPending ? <Loader2 className="animate-spin h-4 w-4" /> : "Continue"}
+                  <Button
+                    type="submit"
+                    size="sm"
+                    disabled={createDomain.isPending}
+                  >
+                    {createDomain.isPending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      "Continue"
+                    )}
                   </Button>
                 </div>
                 {error && <p className="text-xs text-red-500">{error}</p>}
