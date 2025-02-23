@@ -3,12 +3,12 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "@/server/api/trpc";
 
 
-export const postRouter = createTRPCRouter({
-  hello: privateProcedure
+export const mailRouter = createTRPCRouter({
+  create: privateProcedure
     .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .query(({ ctx, input }) => { 
       return {
-        greeting: `Hello ${input.text}`,
+        greeting: `Hello ${ctx.userId}`,
       };
     }),
 });
