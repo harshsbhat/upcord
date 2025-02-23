@@ -10,9 +10,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { auth } from "@/lib/auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next"
 import { db } from "@/server/db";
-import { headers } from "next/headers";
+import { getTenant } from "@/lib/getTenant";
 
 /**
  * 1. CONTEXT
@@ -29,10 +28,18 @@ import { headers } from "next/headers";
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const user = await auth.api.getSession({
     headers: opts.headers
-})
+  })
+  const tenant = await getTenant();
+
+  const workspace = await db.query.workspaces.findFirst({
+    where: (table, { and, eq, isNull }) =>
+      and(eq(table.tenantId, tenant), isNull(table.deletedAt)),
+  });
+
   return {
     db,
     session: user,
+    workspace: workspace,
     ...opts,
   };
 };
@@ -119,7 +126,8 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
 
   return next({
     ctx: {
-      userId: ctx.session?.user.id
+      userId: ctx.session?.user.id,
+      workspaceId: ctx.workspace?.id
     },
   });
 });

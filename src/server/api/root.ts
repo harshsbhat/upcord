@@ -1,4 +1,5 @@
 import { mailRouter } from "@/server/api/routers/mail";
+import { domainsRouter } from "@/server/api/routers/domains"
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   mail: mailRouter,
+  domains: domainsRouter
 });
 
 // export type definition of API

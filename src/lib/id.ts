@@ -4,7 +4,9 @@ const b58 = baseX("123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz");
 
 const prefixes = {
   workspace: "ws",
-  channel: "ch"
+  channel: "ch",
+  domain: "dm",
+  dnsRecords: "dns"
 } as const;
 
 export function newId<TPrefix extends keyof typeof prefixes>(prefix: TPrefix) {

@@ -5,4 +5,11 @@ export const handleGitHubSignIn = async () => {
       provider: 'github',
       callbackURL: '/',
     });
-  };
+};
+
+export const handleGoogleSignin = async () => { 
+    await signIn.social({
+      provider: 'google',
+      callbackURL: '/',
+    });
+};
