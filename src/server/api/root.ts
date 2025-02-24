@@ -1,5 +1,5 @@
 import { mailRouter } from "@/server/api/routers/mail";
-import { domainRouters } from "@/server/api/routers/domains/createDomains"
+import { domainRouters } from "@/server/api/routers/domains/domain"
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
