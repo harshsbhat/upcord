@@ -30,7 +30,7 @@ export default function Client() {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const createDomain = api.domains.create.useMutation({
+  const createDomain = api.domain.create.useMutation({
     onSuccess: async (data) => {
       toast({
         title: "Domain Added",

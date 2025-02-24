@@ -51,7 +51,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
@@ -114,7 +114,7 @@ const timingMiddleware = t.middleware(async ({ next }) => {
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
 
-const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+export const TRPCauth = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session?.user.id) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
@@ -129,4 +129,4 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   });
 });
 
-export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
+export const privateProcedure = t.procedure.use(TRPCauth);
