@@ -38,8 +38,6 @@ export default function Client() {
         variant: "default",
       });
       setDomain("");
-
-      // Redirect to /domains/{domain_id}
       if (data.id) {
         window.location.href = `/domains/${data.id}`;
       }

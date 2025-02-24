@@ -13,7 +13,7 @@ const domainSchema = z.object({
     .regex(/^(?!:\/\/)([a-zA-Z0-9-_]{1,63}\.)+[a-zA-Z]{2,63}$/, "Invalid domain name"),
 });
 
-export const createDomain = createTRPCRouter({
+export const domainRouters = createTRPCRouter({
   create: privateProcedure
     .input(domainSchema)
     .mutation(async ({ ctx, input }) => {
