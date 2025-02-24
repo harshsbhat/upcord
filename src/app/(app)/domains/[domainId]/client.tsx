@@ -30,7 +30,8 @@ export const Client: React.FC<Props> = ({ records }) => {
       .catch((error) => {
         console.error("Failed to copy text:", error);
       });
-  };  
+  };
+  
 
   const truncate = (text: string, maxLength = 20) => (text.length > maxLength ? `${text.slice(0, maxLength)}...` : text)
 
@@ -38,14 +39,16 @@ export const Client: React.FC<Props> = ({ records }) => {
     <TooltipProvider>
       <div className="mx-auto w-full max-w-5xl p-6">
         <Card className="shadow-sm">
-          <CardHeader className="p-4 flex justify-between items-start">
+          <CardHeader className="p-4">
+          <div className="flex justify-between">
             <div>
               <CardTitle className="text-lg">DNS Records</CardTitle>
               <CardDescription className="text-sm">Verify your DNS records</CardDescription>
             </div>
-            <Button onClick={() => console.log("Nothing")} className="ml-auto">
+            <Button onClick={() => console.log("Nothing")}>
               Verify
             </Button>
+            </div>
           </CardHeader>
           <CardContent className="p-4">
             <Table className="w-full border border-gray-200">
