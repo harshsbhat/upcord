@@ -1,25 +1,22 @@
-import { getTenant } from "@/lib/getTenant";
-import { db } from "@/server/db";
-import { redirect } from "next/navigation";
+import { getTenant } from "@/lib/getTenant"
+import { db } from "@/server/db"
+import { redirect } from "next/navigation"
+import Client from "./client"
 
 export default async function Domains() {
-    const tenantId = await getTenant();
-    const domains = await db.query.domains.findMany({
-        where: (table, { and, eq, isNull }) =>
-            and(eq(table.workspaceId, tenantId), isNull(table.deletedAt)),
-    });
+  const tenantId = await getTenant()
+  const workspace = await db.query.workspaces.findFirst({
+    where: (table, { and, eq, isNull }) => and(eq(table.tenantId, tenantId), isNull(table.deletedAt)),
+  })
 
-    // to make sure just one domain is allowed
-    if (domains.length === 0) {
-        return redirect("/domains/add");
-    }
+  const workspaceId = workspace?.id
+  const domains = await db.query.domains.findMany({
+    where: (table, { and, eq, isNull }) => and(eq(table.workspaceId, workspaceId!), isNull(table.deletedAt)),
+  })
 
-    const domain = domains[0]; 
+  if (domains.length === 0) {
+    return redirect("/domains/add")
+  }
 
-    return (
-        <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-xl font-semibold">Your Domain</h1>
-            <p className="text-gray-600 mt-2">{domain?.id}</p>
-        </div>
-    );
+  return <Client domains={domains} />
 }
