@@ -10,9 +10,8 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { auth } from "@/lib/auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next"
 import { db } from "@/server/db";
-import { headers } from "next/headers";
+import { getTenant } from "@/lib/getTenant";
 
 /**
  * 1. CONTEXT
@@ -29,10 +28,18 @@ import { headers } from "next/headers";
 export const createTRPCContext = async (opts: { headers: Headers }) => {
   const user = await auth.api.getSession({
     headers: opts.headers
-})
+  })
+  const tenant = await getTenant();
+
+  const workspace = await db.query.workspaces.findFirst({
+    where: (table, { and, eq, isNull }) =>
+      and(eq(table.tenantId, tenant), isNull(table.deletedAt)),
+  });
+
   return {
     db,
     session: user,
+    workspace: workspace,
     ...opts,
   };
 };
@@ -44,7 +51,7 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
  * ZodErrors so that you get typesafety on the frontend if your procedure fails due to validation
  * errors on the backend.
  */
-const t = initTRPC.context<typeof createTRPCContext>().create({
+export const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
     return {
@@ -85,8 +92,7 @@ export const createTRPCRouter = t.router;
  * You can remove this if you don't like it, but it can help catch unwanted waterfalls by simulating
  * network latency that would occur in production but not in local development.
  */
-const timingMiddleware = t.middleware(async ({ next, path }) => {
-  const start = Date.now();
+const timingMiddleware = t.middleware(async ({ next }) => {
 
   if (t._config.isDev) {
     // artificial delay in dev
@@ -95,8 +101,6 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   }
 
   const result = await next();
-
-  const end = Date.now();
 
   return result;
 });
@@ -110,7 +114,7 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
  */
 export const publicProcedure = t.procedure.use(timingMiddleware);
 
-const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+export const TRPCauth = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session?.user.id) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
@@ -119,9 +123,10 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
 
   return next({
     ctx: {
-      userId: ctx.session?.user.id
+      userId: ctx.session?.user.id,
+      workspaceId: ctx.workspace?.id
     },
   });
 });
 
-export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
+export const privateProcedure = t.procedure.use(TRPCauth);

@@ -7,11 +7,11 @@ export async function getTenant() {
         headers: await headers(),
     });
 
-    const organizations = await auth.api.listOrganizations({
+    const organizations = await auth.api.getFullOrganization({
         headers: await headers(),
     });
 
-    const orgId = organizations?.[0]?.id;
+    const orgId = organizations?.id
     const userId = session?.user?.id;
 
     if (orgId) return orgId;

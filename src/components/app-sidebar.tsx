@@ -3,7 +3,6 @@ import {
     Cable,
     CheckCircle,
     Clock,
-    Folder,
     Inbox,
     LayoutGrid,
     MessageCircle,
