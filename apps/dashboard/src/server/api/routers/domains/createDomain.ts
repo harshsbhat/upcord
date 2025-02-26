@@ -1,11 +1,10 @@
 import { z } from "zod";
-import { createTRPCRouter, TRPCauth, t } from "@/server/api/trpc";
+import { TRPCauth, t } from "@/server/api/trpc";
 import { Resend } from "resend";
 import { env } from "@/env";
 import { TRPCError } from "@trpc/server";
 import { db, schema } from "@/server/db";
 import { newId } from "@/lib/id";
-import { eq } from "drizzle-orm";
 
 const domainSchema = z.object({
   domain: z
@@ -50,8 +49,6 @@ export const createDomain = t.procedure
               apiError instanceof Error ? apiError.message : "Failed to create domain via Resend.",
           });
         });
-
-      console.log("Resend Response:", response.data?.records);
 
       if (!response.data?.id) {
         throw new TRPCError({

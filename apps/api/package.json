@@ -5,6 +5,7 @@
     "deploy": "wrangler deploy --minify"
   },
   "dependencies": {
+    "@hono/zod-openapi": "^0.18.4",
     "hono": "^4.7.2"
   },
   "devDependencies": {

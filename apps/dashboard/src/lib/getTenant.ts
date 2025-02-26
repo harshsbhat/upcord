@@ -6,16 +6,11 @@ export async function getTenant() {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
-
-    const organizations = await auth.api.getFullOrganization({
-        headers: await headers(),
-    });
-
-    const orgId = organizations?.id
+    const orgId = session?.session.activeOrganizationId
     const userId = session?.user?.id;
-
+    console.log(orgId, userId)
     if (orgId) return orgId;
     if (userId) return userId;
 
-    return redirect("/auth/sign-in");
+    return redirect("/auth/login");
 }
