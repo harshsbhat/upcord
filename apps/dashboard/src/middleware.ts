@@ -1,5 +1,7 @@
 import { createAuthClient } from "better-auth/client";
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+
 
 const client = createAuthClient()
 

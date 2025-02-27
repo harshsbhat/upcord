@@ -10,7 +10,9 @@
         "BETTER_AUTH_URL",
         "GITHUB_CLIENT_ID",
         "GITHUB_CLIENT_SECRET",
-        "RESEND_API_KEY"
+        "RESEND_API_KEY",
+        "UNKEY_ROOT_KEY",
+        "UNKEY_API_ID"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
