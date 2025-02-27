@@ -1,6 +1,6 @@
 import { getTenant } from "@/lib/getTenant"
 import ChannelsPage from "./channel"
-import { db } from "../../../../../../packages/db"
+import { db } from "@upcord/db"
 
 export default async function ChannelsMain() {
     const tenantId = await getTenant()

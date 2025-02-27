@@ -3,7 +3,7 @@ import { TRPCauth, t } from "@/server/api/trpc";
 import { Resend } from "resend";
 import { env } from "@/env";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "../../../../../../../packages/db";
+import { db, schema } from "@upcord/db";
 import { newId } from "@/lib/id";
 
 const domainSchema = z.object({
