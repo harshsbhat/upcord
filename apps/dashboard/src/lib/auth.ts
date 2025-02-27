@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { organization } from "better-auth/plugins"
 import { nextCookies } from "better-auth/next-js";
-import { db } from "@/server/db";
+import { db } from "../../../../packages/db";
 import { env } from "@/env";
  
 export const auth = betterAuth({

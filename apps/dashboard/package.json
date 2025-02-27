@@ -38,6 +38,7 @@
     "@trpc/react-query": "^11.0.0-rc.446",
     "@trpc/server": "^11.0.0-rc.446",
     "@unkey/api": "^0.33.1",
+    "@upcord/db": "workspace:^",
     "base-x": "^5.0.0",
     "better-auth": "^1.1.18",
     "checkbox": "^0.0.1",
