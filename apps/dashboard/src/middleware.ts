@@ -1,7 +1,5 @@
 import { createAuthClient } from "better-auth/client";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
 
 const client = createAuthClient()
 
@@ -10,7 +8,7 @@ export async function middleware(request: NextRequest) {
 		{
 			fetchOptions: {
 				headers: {
-					cookie: request.headers.get("cookie") ?? "",
+					cookie: request.headers.get("cookie") || "",
 				},
 			}
 		}
