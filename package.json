@@ -37,6 +37,7 @@
     "@trpc/client": "^11.0.0-rc.446",
     "@trpc/react-query": "^11.0.0-rc.446",
     "@trpc/server": "^11.0.0-rc.446",
+    "@uploadthing/react": "^7.3.0",
     "base-x": "^5.0.0",
     "better-auth": "^1.1.18",
     "checkbox": "^0.0.1",
@@ -56,6 +57,7 @@
     "superjson": "^2.2.1",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^7.5.2",
     "zod": "^3.24.2"
   },
   "devDependencies": {
