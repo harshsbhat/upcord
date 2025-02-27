@@ -3,9 +3,7 @@ import { TRPCauth, t } from "@/server/api/trpc";
 import { Resend } from "resend";
 import { env } from "@/env";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "@upcord/db";
-import { eq } from "drizzle-orm";
-
+import { db, schema, eq } from "@upcord/db";
 
 export const verifyDomain = t.procedure
 .use(TRPCauth)

@@ -1,8 +1,7 @@
 import { z } from "zod";
 import { TRPCauth, t } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "@upcord/db";
-import { eq } from "drizzle-orm";
+import { db, schema, eq } from "@upcord/db";
 import { unkey } from "@/lib/unkey";
 
 const keyIdSchema = z.object({
