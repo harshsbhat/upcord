@@ -94,6 +94,9 @@ importers:
       '@unkey/api':
         specifier: ^0.33.1
         version: 0.33.1
+      '@upcord/db':
+        specifier: workspace:^
+        version: link:../../packages/db
       base-x:
         specifier: ^5.0.0
         version: 5.0.0
@@ -239,6 +242,25 @@ importers:
         version: 3.4.17(ts-node@10.9.2(@types/node@20.17.19)(typescript@5.7.3))
       typescript:
         specifier: ^5
+        version: 5.7.3
+
+  packages/db:
+    dependencies:
+      drizzle-kit:
+        specifier: ^0.24.0
+        version: 0.24.2
+      drizzle-orm:
+        specifier: ^0.31.4
+        version: 0.31.4(@cloudflare/workers-types@4.20250224.0)(@types/react@19.0.8)(kysely@0.27.5)(postgres@3.4.5)(react@19.0.0)
+      postgres:
+        specifier: ^3.4.4
+        version: 3.4.5
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.9
+        version: 20.17.19
+      typescript:
+        specifier: ^5.5.3
         version: 5.7.3
 
   packages/eslint-config:
@@ -2719,6 +2741,95 @@ packages:
   drizzle-kit@0.24.2:
     resolution: {integrity: sha512-nXOaTSFiuIaTMhS8WJC2d4EBeIcN9OSt2A2cyFbQYBAZbi7lRsVGJNqDpEwPqYfJz38yxbY/UtbvBBahBfnExQ==}
     hasBin: true
+
+  drizzle-orm@0.31.4:
+    resolution: {integrity: sha512-VGD9SH9aStF2z4QOTnVlVX/WghV/EnuEzTmsH3fSVp2E4fFgc8jl3viQrS/XUJx1ekW4rVVLJMH42SfGQdjX3Q==}
+    peerDependencies:
+      '@aws-sdk/client-rds-data': '>=3'
+      '@cloudflare/workers-types': '>=3'
+      '@electric-sql/pglite': '>=0.1.1'
+      '@libsql/client': '*'
+      '@neondatabase/serverless': '>=0.1'
+      '@op-engineering/op-sqlite': '>=2'
+      '@opentelemetry/api': ^1.4.1
+      '@planetscale/database': '>=1'
+      '@prisma/client': '*'
+      '@tidbcloud/serverless': '*'
+      '@types/better-sqlite3': '*'
+      '@types/pg': '*'
+      '@types/react': '>=18'
+      '@types/sql.js': '*'
+      '@vercel/postgres': '>=0.8.0'
+      '@xata.io/client': '*'
+      better-sqlite3: '>=7'
+      bun-types: '*'
+      expo-sqlite: '>=13.2.0'
+      knex: '*'
+      kysely: '*'
+      mysql2: '>=2'
+      pg: '>=8'
+      postgres: '>=3'
+      prisma: '*'
+      react: '>=18'
+      sql.js: '>=1'
+      sqlite3: '>=5'
+    peerDependenciesMeta:
+      '@aws-sdk/client-rds-data':
+        optional: true
+      '@cloudflare/workers-types':
+        optional: true
+      '@electric-sql/pglite':
+        optional: true
+      '@libsql/client':
+        optional: true
+      '@neondatabase/serverless':
+        optional: true
+      '@op-engineering/op-sqlite':
+        optional: true
+      '@opentelemetry/api':
+        optional: true
+      '@planetscale/database':
+        optional: true
+      '@prisma/client':
+        optional: true
+      '@tidbcloud/serverless':
+        optional: true
+      '@types/better-sqlite3':
+        optional: true
+      '@types/pg':
+        optional: true
+      '@types/react':
+        optional: true
+      '@types/sql.js':
+        optional: true
+      '@vercel/postgres':
+        optional: true
+      '@xata.io/client':
+        optional: true
+      better-sqlite3:
+        optional: true
+      bun-types:
+        optional: true
+      expo-sqlite:
+        optional: true
+      knex:
+        optional: true
+      kysely:
+        optional: true
+      mysql2:
+        optional: true
+      pg:
+        optional: true
+      postgres:
+        optional: true
+      prisma:
+        optional: true
+      react:
+        optional: true
+      sql.js:
+        optional: true
+      sqlite3:
+        optional: true
 
   drizzle-orm@0.33.0:
     resolution: {integrity: sha512-SHy72R2Rdkz0LEq0PSG/IdvnT3nGiWuRk+2tXZQ90GVq/XQhpCzu/EFT3V2rox+w8MlkBQxifF8pCStNYnERfA==}
@@ -7180,6 +7291,14 @@ snapshots:
       esbuild-register: 3.6.0(esbuild@0.19.12)
     transitivePeerDependencies:
       - supports-color
+
+  drizzle-orm@0.31.4(@cloudflare/workers-types@4.20250224.0)(@types/react@19.0.8)(kysely@0.27.5)(postgres@3.4.5)(react@19.0.0):
+    optionalDependencies:
+      '@cloudflare/workers-types': 4.20250224.0
+      '@types/react': 19.0.8
+      kysely: 0.27.5
+      postgres: 3.4.5
+      react: 19.0.0
 
   drizzle-orm@0.33.0(@cloudflare/workers-types@4.20250224.0)(@types/react@18.3.18)(kysely@0.27.5)(postgres@3.4.5)(react@18.3.1):
     optionalDependencies:

@@ -10,7 +10,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { auth } from "@/lib/auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
-import { db } from "@/server/db";
+import { db } from "../../../../../packages/db";
 import { getTenant } from "@/lib/getTenant";
 
 /**
