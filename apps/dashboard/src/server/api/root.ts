@@ -1,4 +1,3 @@
-import { mailRouter } from "@/server/api/routers/mail";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 import { router } from "./routers";
 
