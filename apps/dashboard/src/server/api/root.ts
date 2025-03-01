@@ -8,6 +8,10 @@ import { router } from "./routers";
  */
 export const appRouter = router
 
+export const config = {
+    runtime: 'edge',
+  };
+  
 // export type definition of API
 export type AppRouter = typeof appRouter;
 
