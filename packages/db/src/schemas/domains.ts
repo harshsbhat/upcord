@@ -1,6 +1,7 @@
 import { boolean, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { workspaces } from "./workspaces";
 
+
 export const domains = pgTable("domains", {
     id: varchar("id", { length: 256 }).primaryKey(),
     resendId: text("resendId").notNull(),
