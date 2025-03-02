@@ -1,0 +1,5 @@
+name = "api"
+compatibility_date = "2024-01-01"
+
+[vars]
+DATABASE_URL="postgresql://neondb_owner:npg_7LAWqBObiut9@ep-lucky-unit-a5gfudbj-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
