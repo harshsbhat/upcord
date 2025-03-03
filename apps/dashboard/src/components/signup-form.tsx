@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { handleGitHubSignIn } from "@/lib/handleAuth"
+import { handleGitHubSignIn, handleGoogleSignIn } from "@/lib/handleAuth"
 import { Loader2 } from "lucide-react"
 
 export function LoginForm({
@@ -23,13 +23,24 @@ export function LoginForm({
 
   const handleGitHubLogin = async () => {
     setGithubLoading(true)
-    await handleGitHubSignIn()
-    setGithubLoading(false)
+    try {
+      await handleGitHubSignIn()
+    } catch (error) {
+      console.error("GitHub sign-in failed:", error)
+    } finally {
+      setGithubLoading(false)
+    }
   }
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true)
-    setTimeout(() => setGoogleLoading(false), 2000)
+    try {
+      await handleGoogleSignIn()
+    } catch (error) {
+      console.error("Google sign-in failed:", error)
+    } finally {
+      setGoogleLoading(false)
+    }
   }
 
   return (
@@ -76,10 +87,11 @@ export function LoginForm({
             </>
           )}
         </Button>
-        <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={googleLoading}>
+        <Button variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={googleLoading} type="button">
           {googleLoading ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Signing in...
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Signing up...
             </>
           ) : (
             <>
@@ -100,7 +112,6 @@ export function LoginForm({
                   d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   fill="#EA4335"
                 />
-                <path d="M1 1h22v22H1z" fill="none" />
               </svg>
               Sign up with Google
             </>
