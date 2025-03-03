@@ -7,12 +7,6 @@ import { api } from "@/trpc/react"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { changeEmail, updateUser } from "@/lib/auth-client"
 
 interface ProfileClientProps {
@@ -29,22 +23,6 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const [username, setUsername] = useState(initialUser.name)
   const [newEmail, setNewEmail] = useState(initialUser.email)
   const { toast } = useToast()
-
-  const updateProfile = api.user.update.useMutation({
-    onSuccess: () => {
-      toast({
-        title: "Profile updated",
-        description: "Your profile has been updated successfully.",
-      })
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      })
-    },
-  })
 
   const handleUsernameSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
