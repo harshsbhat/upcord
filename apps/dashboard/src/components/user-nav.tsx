@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { LogOut, Settings, User, Loader2 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -14,6 +15,7 @@ import {
 import { signOut, useSession } from "@/lib/auth-client"
 
 export function UserNav() {
+  const router = useRouter()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
   const session = useSession()
   const handleLogout = async () => {
@@ -49,7 +51,7 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => router.push('/profile')} className="cursor-pointer">
           <User className="mr-2 h-4 w-4" />
           <span>Profile</span>
         </DropdownMenuItem>

@@ -7,7 +7,7 @@ export const handleGitHubSignIn = async () => {
     });
 };
 
-export const handleGoogleSignin = async () => { 
+export const handleGoogleSignIn = async () => { 
     await signIn.social({
       provider: 'google',
       callbackURL: '/',
