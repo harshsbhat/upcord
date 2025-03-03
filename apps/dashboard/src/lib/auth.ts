@@ -4,6 +4,7 @@ import { organization } from "better-auth/plugins"
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/server/db";
 import { env } from "@/env";
+import { resend } from "./resend"
  
 export const auth = betterAuth({
     database: drizzleAdapter(db, {
@@ -22,7 +23,20 @@ export const auth = betterAuth({
             scope: ["email", "profile"]
         }
     },
-    plugins: [ 
+    user: {
+        changeEmail: {
+            enabled: true,
+            sendChangeEmailVerification: async ({ user, newEmail, url, token }, request) => {
+                await resend.emails.send({
+                    from: 'Upcord <noreply-upcord@sealnotes.com>',
+                    to: user.email,
+                    subject: 'Upcord: Approve email change',
+                    text: `Click the link to approve the change: ${url}`
+                })
+            }
+        }
+    },
+    plugins: [  
         organization(), 
         nextCookies()
     ] 

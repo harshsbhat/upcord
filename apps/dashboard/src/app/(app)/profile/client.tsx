@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { User, MoreVertical } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
 import { api } from "@/trpc/react"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
@@ -12,19 +13,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { changeEmail, updateUser } from "@/lib/auth-client"
 
 interface ProfileClientProps {
   initialUser: {
     id: string
     name: string
     email: string
-    image: string | null
+    emailVerified: boolean
+    image: string | null | undefined
   }
 }
 
 export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const [username, setUsername] = useState(initialUser.name)
-  const [secondaryEmail, setSecondaryEmail] = useState("")
+  const [newEmail, setNewEmail] = useState(initialUser.email)
   const { toast } = useToast()
 
   const updateProfile = api.user.update.useMutation({
@@ -43,9 +46,41 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
     },
   })
 
-  const handleUsernameSubmit = (e: React.FormEvent) => {
+  const handleUsernameSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    updateProfile.mutate({ name: username })
+    try {
+      await updateUser({ name: username })
+      toast({
+        title: "Success",
+        description: "Username updated successfully",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update username",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      await changeEmail({
+         newEmail: newEmail,
+         callbackURL: "/profile"
+        })
+      toast({
+        title: "Success",
+        description: "Email updated successfully",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update email",
+        variant: "destructive",
+      })
+    }
   }
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +116,6 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
             />
             <Button 
               type="submit"
-              disabled={updateProfile.isPending}
             >
               Save
             </Button>
@@ -91,43 +125,29 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
 
       {/* Email Section */}
       <div className="border rounded-lg p-6">
-        <h2 className="text-xl font-semibold mb-4">Email Addresses</h2>
+        <div className="flex flex-row items-center justify-between">
+            <h2 className="text-xl font-semibold mb-4">Email Addresses</h2>
+            <Badge variant={initialUser.emailVerified ? "success" : "destructive"}>
+                {initialUser.emailVerified ? "Verified" : "Not Verified"}
+            </Badge>
+        </div>
         <div className="space-y-4">
-          {/* Primary Email */}
-          <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-            <div>
-              <p>{initialUser.email}</p>
-              <div className="flex gap-2 mt-1">
-                <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">
-                  Primary
-                </span>
-                <span className="text-xs bg-green-500/10 text-green-500 px-2 py-1 rounded">
-                  Verified
-                </span>
-              </div>
-            </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-
-          {/* Secondary Email Input */}
-          <div className="flex gap-2">
+            <form onSubmit={handleEmailSubmit} className="space-y-2">
+            <label className="text-sm text-muted-foreground">
+            Update email address
+          </label>
+            <div className="flex gap-2">
             <Input
               type="email"
-              value={secondaryEmail}
-              onChange={(e) => setSecondaryEmail(e.target.value)}
-              placeholder="Add another email address"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="Enter email"
             />
-            <Button>Save</Button>
-          </div>
+            <Button type="submit">
+              Save
+              </Button>
+              </div>
+              </form>
         </div>
       </div>
 

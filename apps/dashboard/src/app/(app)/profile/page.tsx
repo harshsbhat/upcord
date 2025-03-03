@@ -1,15 +1,23 @@
-import { getTenant } from "@/lib/getTenant"
-import { db } from "@/server/db"
 import ProfileClient from "./client"
+import { auth } from "@/lib/auth"
+import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 
 export default async function ProfilePage() {
-  const userId = await getTenant()
-  const user = await db.query.user.findFirst({
-    where: (table, { eq }) => eq(table.id, userId)
+  const session = await auth.api.getSession({
+    headers: await headers()
   })
 
-  if (!user) {
-    throw new Error("User not found")
+  if(!session) {
+    return redirect("/auth/signup")
+  }
+
+  const user = {
+    id: session.user.id,
+    name: session.user.name,
+    email: session.user.email,
+    emailVerified: session.user.emailVerified,
+    image: session.user.image,
   }
 
   return <ProfileClient initialUser={user} />

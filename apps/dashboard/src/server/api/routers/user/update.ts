@@ -28,5 +28,3 @@ export const update = t.procedure
 
         return { success: true }
     })
-
-// TODO: Add additional procedures for email and avatar updates
