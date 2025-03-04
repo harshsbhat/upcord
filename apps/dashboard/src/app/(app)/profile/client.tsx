@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
-import { User, Mail } from "lucide-react"
+import { User } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
@@ -23,7 +23,7 @@ interface ProfileClientProps {
 export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const [username, setUsername] = useState(initialUser.name)
   const [newEmail, setNewEmail] = useState(initialUser.email)
-  const [isVerificationSending, setIsVerificationSending] = useState(false)
+  // const [isVerificationSending, setIsVerificationSending] = useState(false)
   const { toast } = useToast()
 
   const handleUsernameSubmit = async (e: React.FormEvent) => {
@@ -35,6 +35,7 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         description: "Username updated successfully",
       })
     } catch (error) {
+      console.error(error)
       toast({
         title: "Error",
         description: "Failed to update username",
@@ -55,6 +56,7 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         description: "Email updated successfully",
       })
     } catch (error) {
+      console.error(error)
       toast({
         title: "Error",
         description: "Failed to update email",
@@ -63,27 +65,27 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
     }
   }
 
-  const handleVerificationRequest = async () => {
-    setIsVerificationSending(true)
-    try {
-      const { data, error } = await authClient.emailOtp.verifyEmail({
-          email: newEmail,
-          otp: "13456"
-      })
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send verification email",
-        variant: "destructive",
-      })
-    } finally {
-      toast({
-        title: "Verification Email Sent",
-        description: "Please check your inbox and follow the link to verify your email",
-      })
-      setIsVerificationSending(false)
-    }
-  }
+  // const handleVerificationRequest = async () => {
+  //   setIsVerificationSending(true)
+  //   try {
+  //     const { data, error } = await authClient.emailOtp.verifyEmail({
+  //         email: newEmail,
+  //         otp: "13456"
+  //     })
+  //   } catch (error) {
+  //     toast({
+  //       title: "Error",
+  //       description: "Failed to send verification email",
+  //       variant: "destructive",
+  //     })
+  //   } finally {
+  //     toast({
+  //       title: "Verification Email Sent",
+  //       description: "Please check your inbox and follow the link to verify your email",
+  //     })
+  //     setIsVerificationSending(false)
+  //   }
+  // }
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

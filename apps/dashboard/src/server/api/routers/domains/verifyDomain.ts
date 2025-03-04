@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { TRPCauth, t } from "@/server/api/trpc";
 import { Resend } from "resend";
 import { env } from "@/env";
@@ -9,7 +8,7 @@ import { eq } from "drizzle-orm";
 
 export const verifyDomain = t.procedure
 .use(TRPCauth)
-.mutation(async({ ctx, input }) => {
+.mutation(async({ ctx }) => {
   const resend = new Resend(env.RESEND_API_KEY)
   const workspaceId = ctx.workspace?.id
   if (!workspaceId){

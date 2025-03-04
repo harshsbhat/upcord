@@ -26,7 +26,7 @@ export const auth = betterAuth({
     user: {
         changeEmail: {
             enabled: true,
-            sendChangeEmailVerification: async ({ user, newEmail, url, token }, request) => {
+            sendChangeEmailVerification: async ({ user, url }) => {
                 await resend.emails.send({
                     from: 'Upcord <noreply-upcord@sealnotes.com>',
                     to: user.email,
@@ -42,7 +42,7 @@ export const auth = betterAuth({
         emailOTP({ 
             otpLength: 6,
             expiresIn: 600,
-            async sendVerificationOTP({ email, otp, type}) { 
+            async sendVerificationOTP({ email, otp}) { 
                 await resend.emails.send({
                     from: 'Upcord <noreply-upcord@sealnotes.com>',
                     to: email,
