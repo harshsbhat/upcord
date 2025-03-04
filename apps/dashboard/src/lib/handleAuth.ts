@@ -1,14 +1,14 @@
-import { signIn } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 
 export const handleGitHubSignIn = async () => { 
-    await signIn.social({
+    await authClient.signIn.social({
       provider: 'github',
       callbackURL: '/',
     });
 };
 
 export const handleGoogleSignIn = async () => { 
-    await signIn.social({
+    await authClient.signIn.social({
       provider: 'google',
       callbackURL: '/',
     });

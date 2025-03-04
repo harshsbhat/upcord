@@ -1,13 +1,14 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
-import { User, MoreVertical } from "lucide-react"
+import { User, Mail } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { api } from "@/trpc/react"
 import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { changeEmail, updateUser } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 
 interface ProfileClientProps {
   initialUser: {
@@ -22,12 +23,13 @@ interface ProfileClientProps {
 export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const [username, setUsername] = useState(initialUser.name)
   const [newEmail, setNewEmail] = useState(initialUser.email)
+  const [isVerificationSending, setIsVerificationSending] = useState(false)
   const { toast } = useToast()
 
   const handleUsernameSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await updateUser({ name: username })
+      await authClient.updateUser({ name: username })
       toast({
         title: "Success",
         description: "Username updated successfully",
@@ -44,10 +46,10 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      await changeEmail({
-         newEmail: newEmail,
-         callbackURL: "/profile"
-        })
+      await authClient.changeEmail({
+        newEmail: newEmail,
+        callbackURL: "/profile",
+      })
       toast({
         title: "Success",
         description: "Email updated successfully",
@@ -58,6 +60,28 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         description: "Failed to update email",
         variant: "destructive",
       })
+    }
+  }
+
+  const handleVerificationRequest = async () => {
+    setIsVerificationSending(true)
+    try {
+      await authClient.emailOtp.verifyEmail({
+          email: "user-email@email.com",
+          otp: "13456"
+      })
+      toast({
+        title: "Verification Email Sent",
+        description: "Please check your inbox and follow the link to verify your email",
+      })
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send verification email",
+        variant: "destructive",
+      })
+    } finally {
+      setIsVerificationSending(false)
     }
   }
 
@@ -83,20 +107,10 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
       <div className="border rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Username</h2>
         <form onSubmit={handleUsernameSubmit} className="space-y-2">
-          <label className="text-sm text-muted-foreground">
-            Update or create a username
-          </label>
+          <label className="text-sm text-muted-foreground">Update or create a username</label>
           <div className="flex gap-2">
-            <Input
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-            />
-            <Button 
-              type="submit"
-            >
-              Save
-            </Button>
+            <Input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Enter username" />
+            <Button type="submit">Save</Button>
           </div>
         </form>
       </div>
@@ -104,28 +118,53 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
       {/* Email Section */}
       <div className="border rounded-lg p-6">
         <div className="flex flex-row items-center justify-between">
-            <h2 className="text-xl font-semibold mb-4">Email Addresses</h2>
-            <Badge variant={initialUser.emailVerified ? "success" : "destructive"}>
-                {initialUser.emailVerified ? "Verified" : "Not Verified"}
-            </Badge>
+          <h2 className="text-xl font-semibold mb-4">Email Addresses</h2>
+          <Badge variant={initialUser.emailVerified ? "success" : "destructive"}>
+            {initialUser.emailVerified ? "Verified" : "Not Verified"}
+          </Badge>
         </div>
         <div className="space-y-4">
-            <form onSubmit={handleEmailSubmit} className="space-y-2">
-            <label className="text-sm text-muted-foreground">
-            Update email address
-          </label>
+          <form onSubmit={handleEmailSubmit} className="space-y-2">
+            <label className="text-sm text-muted-foreground">Update email address</label>
             <div className="flex gap-2">
-            <Input
-              type="email"
-              value={newEmail}
-              onChange={(e) => setNewEmail(e.target.value)}
-              placeholder="Enter email"
-            />
-            <Button type="submit">
-              Save
+              <Input
+                type="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder="Enter email"
+              />
+              <Button type="submit">Save</Button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* Email Verification Section */}
+      <div className="border rounded-lg p-6">
+        <h2 className="text-xl font-semibold mb-4">Email Verification</h2>
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <Mail className="h-5 w-5 text-muted-foreground" />
+            <div>
+              <p className="font-medium">{initialUser.email}</p>
+              <p className="text-sm text-muted-foreground">
+                {initialUser.emailVerified
+                  ? "Your email is verified"
+                  : "Your email is not verified. Please verify to access all features."}
+              </p>
+            </div>
+          </div>
+
+          {!initialUser.emailVerified && (
+            <div>
+              <Button onClick={handleVerificationRequest} disabled={isVerificationSending} className="w-full sm:w-auto">
+                {isVerificationSending ? "Sending..." : "Send Verification Email"}
               </Button>
-              </div>
-              </form>
+              <p className="mt-2 text-xs text-muted-foreground">
+                Did not receive the email? Check your spam folder or request a new verification email.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -134,16 +173,11 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         <h2 className="text-xl font-semibold mb-4">Your Avatar</h2>
         <div className="flex items-center gap-6">
           <label className="cursor-pointer">
-            <input
-              type="file"
-              className="hidden"
-              accept=".png,.jpg,.jpeg"
-              onChange={handleAvatarUpload}
-            />
+            <input type="file" className="hidden" accept=".png,.jpg,.jpeg" onChange={handleAvatarUpload} />
             <div className="h-20 w-20 rounded-full bg-muted flex items-center justify-center">
               {initialUser.image ? (
                 <img
-                  src={initialUser.image}
+                  src={initialUser.image || "/placeholder.svg"}
                   alt="Avatar"
                   className="h-20 w-20 rounded-full object-cover"
                 />
@@ -161,3 +195,4 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
     </div>
   )
 }
+

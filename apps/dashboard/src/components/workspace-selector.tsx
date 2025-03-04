@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Check, ChevronsUpDown, Plus } from "lucide-react"
-import { useListOrganizations } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 export function WorkspaceSelector() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
-  const workspaceList = useListOrganizations()
+  const workspaceList = authClient.useListOrganizations()
 
   const workspaces = workspaceList.data ?? []
 

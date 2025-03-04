@@ -12,16 +12,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { signOut, useSession } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth-client"
 
 export function UserNav() {
   const router = useRouter()
   const [isLoggingOut, setIsLoggingOut] = useState(false)
-  const session = useSession()
+  const session = authClient.useSession()
   const handleLogout = async () => {
     setIsLoggingOut(true)
     try {
-      await signOut({
+      await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
             window.location.href = "/auth/login"

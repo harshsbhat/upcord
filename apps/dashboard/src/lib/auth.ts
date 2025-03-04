@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { organization } from "better-auth/plugins"
+import { organization, emailOTP } from "better-auth/plugins"
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/server/db";
 import { env } from "@/env";
@@ -38,6 +38,18 @@ export const auth = betterAuth({
     },
     plugins: [  
         organization(), 
-        nextCookies()
+        nextCookies(),
+        emailOTP({ 
+            otpLength: 8,
+            expiresIn: 600,
+            async sendVerificationOTP({ email, otp, type}) { 
+                await resend.emails.send({
+                    from: 'Upcord <noreply-upcord@sealnotes.com>',
+                    to: email,
+                    subject: 'Upcord: Confirm your email address',
+                    text: `Your OTP to veify email address is ${otp}`
+                })
+            }, 
+         }),
     ] 
 });
