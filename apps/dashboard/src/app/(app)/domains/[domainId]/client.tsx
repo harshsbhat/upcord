@@ -2,7 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
-import { Check, Copy, Clock, XCircle } from "lucide-react"
+import { Check, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -22,7 +22,7 @@ export const Client: React.FC<Props> = ({ records }) => {
   const parsedRecords: DNSRecord[] = typeof records === "string" ? (JSON.parse(records) as DNSRecord[]) : records
 
   const verifyDomain = api.domain.verify.useMutation({
-    onSuccess: async (data) => {
+    onSuccess: async () => {
       toast({
         title: "Domain Added",
         description: "Your domain has been successfully added!",

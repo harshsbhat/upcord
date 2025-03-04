@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { handleGitHubSignIn, handleGoogleSignIn } from "@/lib/handleAuth"
 import { Loader2 } from "lucide-react"
 
-export function LoginForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"form">) {

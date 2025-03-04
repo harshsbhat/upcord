@@ -40,7 +40,7 @@ export const auth = betterAuth({
         organization(), 
         nextCookies(),
         emailOTP({ 
-            otpLength: 8,
+            otpLength: 6,
             expiresIn: 600,
             async sendVerificationOTP({ email, otp, type}) { 
                 await resend.emails.send({

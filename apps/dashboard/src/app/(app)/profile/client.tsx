@@ -66,13 +66,9 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
   const handleVerificationRequest = async () => {
     setIsVerificationSending(true)
     try {
-      await authClient.emailOtp.verifyEmail({
-          email: "user-email@email.com",
+      const { data, error } = await authClient.emailOtp.verifyEmail({
+          email: newEmail,
           otp: "13456"
-      })
-      toast({
-        title: "Verification Email Sent",
-        description: "Please check your inbox and follow the link to verify your email",
       })
     } catch (error) {
       toast({
@@ -81,6 +77,10 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         variant: "destructive",
       })
     } finally {
+      toast({
+        title: "Verification Email Sent",
+        description: "Please check your inbox and follow the link to verify your email",
+      })
       setIsVerificationSending(false)
     }
   }
@@ -102,8 +102,7 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
   }
 
   return (
-    <div className="container max-w-2xl mx-auto py-16 space-y-8">
-      {/* Username Section */}
+    <div className="container w-3/4 mx-auto py-16 space-y-8">
       <div className="border rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Username</h2>
         <form onSubmit={handleUsernameSubmit} className="space-y-2">
@@ -139,7 +138,7 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
         </div>
       </div>
 
-      {/* Email Verification Section */}
+      {/* Email Verification Section
       <div className="border rounded-lg p-6">
         <h2 className="text-xl font-semibold mb-4">Email Verification</h2>
         <div className="space-y-4">
@@ -161,12 +160,12 @@ export default function ProfileClient({ initialUser }: ProfileClientProps) {
                 {isVerificationSending ? "Sending..." : "Send Verification Email"}
               </Button>
               <p className="mt-2 text-xs text-muted-foreground">
-                Did not receive the email? Check your spam folder or request a new verification email.
+                Did receive the email? Check your spam folder or request a new verification email.
               </p>
             </div>
           )}
         </div>
-      </div>
+      </div> */}
 
       {/* Avatar Section */}
       <div className="border rounded-lg p-6">
