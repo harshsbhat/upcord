@@ -13,6 +13,7 @@
   "dependencies": {
     "@cloudflare/vitest-pool-workers": "^0.7.5",
     "@hono/zod-openapi": "^0.14.5",
+    "@upcord/db": "workspace:^",
     "@unkey/api": "^0.34.0",
     "@unkey/cache": "^1.5.0",
     "@unkey/hono": "^1.4.15",
@@ -20,6 +21,7 @@
     "drizzle-orm": "^0.30.10",
     "hono": "^4.7.2",
     "pg": "^8.11.3",
+    "postgres": "^3.4.4",
     "zod": "^3.24.2"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { TRPCauth, t } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "@/server/db";
+import { db, schema } from "@upcord/db";
 import { eq } from "drizzle-orm";
 import { unkey } from "@/lib/unkey";
 

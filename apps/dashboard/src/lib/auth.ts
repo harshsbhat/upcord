@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { organization, emailOTP } from "better-auth/plugins"
 import { nextCookies } from "better-auth/next-js";
-import { db } from "@/server/db";
+import { db } from "@upcord/db";
 import { env } from "@/env";
 import { resend } from "./resend"
  

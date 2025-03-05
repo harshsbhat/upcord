@@ -2,7 +2,7 @@ import { TRPCauth, t } from "@/server/api/trpc";
 import { Resend } from "resend";
 import { env } from "@/env";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "@/server/db";
+import { db, schema } from "@upcord/db";
 import { eq } from "drizzle-orm";
 
 

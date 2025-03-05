@@ -3,7 +3,7 @@ import { TRPCauth, t } from "@/server/api/trpc";
 import { env } from "@/env";
 import { unkey } from "@/lib/unkey";
 import { TRPCError } from "@trpc/server";
-import { db, schema } from "@/server/db";
+import { db, schema } from "@upcord/db";
 
 const nameSchema = z.object({
     name: z.string()

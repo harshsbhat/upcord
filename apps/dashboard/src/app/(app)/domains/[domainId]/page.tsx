@@ -1,4 +1,4 @@
-import { db } from "@/server/db";
+import { db } from "@upcord/db";
 import { Client } from "./client";
 import { getTenant } from "@/lib/getTenant";
 import { redirect } from "next/navigation";

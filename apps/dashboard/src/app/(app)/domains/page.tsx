@@ -1,5 +1,5 @@
 import { getTenant } from "@/lib/getTenant"
-import { db } from "@/server/db"
+import { db } from "@upcord/db"
 import { redirect } from "next/navigation"
 import Client from "./client"
 

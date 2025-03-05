@@ -10,4 +10,4 @@
  */
 
 
-export * from "./schemas"
+export * from "./src/schemas"

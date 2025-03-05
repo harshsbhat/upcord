@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 import { getTenant } from "@/lib/getTenant"
-import { db, schema } from "@/server/db"
+import { db, schema } from "@upcord/db"
 import { newId } from "@/lib/id"
 export default async function Home() {
     const userId = await getTenant()
