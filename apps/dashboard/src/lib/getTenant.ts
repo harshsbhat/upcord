@@ -8,7 +8,6 @@ export async function getTenant() {
     });
     const orgId = session?.session.activeOrganizationId
     const userId = session?.user?.id;
-    console.log(orgId, userId)
     if (orgId) return orgId;
     if (userId) return userId;
 
