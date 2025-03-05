@@ -1,14 +1,14 @@
-import { Hono } from 'hono'
-import { OpenAPIHono } from "@hono/zod-openapi";
-import type { Context as GenericContext } from "hono";
-import { prettyJSON } from "hono/pretty-json";
-import { newApp } from "@/pkg/hono/app"
+import { initCache } from "./lib/cache";
+import { newApp } from "./lib/hono";
+import { initRatelimiter } from "./lib/ratelimit";
+import { keys } from "./routes/keys";
+import { posts } from "./routes/posts";
 
+const app = newApp();
+const version = "v1";
+app.use(initCache());
+app.use(initRatelimiter());
 
-const app = new Hono()
-
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
-
-export default app
+app.route(`${version}/keys/`, keys);
+app.route(`${version}/posts/`, posts);
+export default app;

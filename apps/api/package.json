@@ -1,15 +1,33 @@
 {
   "name": "api",
   "scripts": {
+    "build": "tsc",
+    "deploy": "pnpm build && wrangler deploy",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify"
+    "env": "dotenv -e .dev.vars",
+    "db:push": "pnpm run env -- drizzle-kit push",
+    "db:studio": "pnpm run env -- drizzle-kit studio",
+    "db:generate": "pnpm run env -- drizzle-kit generate",
+    "db:migrate": "pnpm run env -- drizzle-kit migrate"
   },
   "dependencies": {
-    "@hono/zod-openapi": "^0.18.4",
-    "hono": "^4.7.2"
+    "@cloudflare/vitest-pool-workers": "^0.7.5",
+    "@hono/zod-openapi": "^0.14.5",
+    "@unkey/api": "^0.34.0",
+    "@unkey/cache": "^1.5.0",
+    "@unkey/hono": "^1.4.15",
+    "@unkey/ratelimit": "^0.5.5",
+    "drizzle-orm": "^0.30.10",
+    "hono": "^4.7.2",
+    "pg": "^8.11.3",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250214.0",
-    "wrangler": "^3.109.2"
+    "@cloudflare/workers-types": "^4.20250303.0",
+    "@types/pg": "^8.10.9",
+    "dotenv-cli": "^7.4.2",
+    "drizzle-kit": "^0.21.4",
+    "eslint-plugin-drizzle": "^0.2.3",
+    "wrangler": "^3.112.0"
   }
 }
