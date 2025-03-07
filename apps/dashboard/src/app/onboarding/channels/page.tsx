@@ -7,6 +7,7 @@ import { ShimmerButton } from "@/components/magicui/shimmer-button"
 import { Loader2 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import Link from "next/link"
 
 export default function ChannelSetupForm() {
   const [loading, setLoading] = useState(false)
@@ -29,6 +30,7 @@ export default function ChannelSetupForm() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
       toast.success("Channels have been set up!")
     } catch (error) {
+      console.error(error)
       toast.error("Failed to save channels. Please try again.")
     } finally {
       setLoading(false)
@@ -54,9 +56,9 @@ export default function ChannelSetupForm() {
             ))}
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
-            <a href="/" className="text-sm text-muted-foreground hover:underline text-center">
+            <Link href="/" className="text-sm text-muted-foreground hover:underline text-center">
               Skip setup
-            </a>
+            </Link>
             <ShimmerButton className="w-full h-10 bg-gradient-to-r from-primary to-primary/80" disabled={loading}>
               {loading ? (
                 <span className="flex items-center justify-center">

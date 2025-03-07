@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { handleGitHubSignIn, handleGoogleSignIn } from "@/lib/handleAuth"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
+
 
 export function SignUpForm({
   className,
@@ -120,9 +122,9 @@ export function SignUpForm({
       </div>
       <div className="text-center text-sm">
         Already have an account?{" "}
-        <a href="/auth/login" className="underline underline-offset-4">
+        <Link href="/auth/login" className="underline underline-offset-4">
           Sign In
-        </a>
+        </Link>
       </div>
     </form>
   )

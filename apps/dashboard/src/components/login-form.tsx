@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { handleGitHubSignIn, handleGoogleSignIn } from "@/lib/handleAuth"
 import { Loader2 } from "lucide-react"
+import Link from "next/link"
 
 export function LoginForm({
   className,
@@ -109,9 +110,9 @@ export function LoginForm({
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <a href="/auth/signup" className="underline underline-offset-4">
+        <Link href="/auth/signup" className="underline underline-offset-4">
           Sign Up
-        </a>
+        </Link>
       </div>
     </form>
   )
