@@ -4,8 +4,25 @@ import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import MembersTab from "./members-tab"
 import InviteTab from "./invite-tab"
+import { api } from "@/trpc/react"
 
-export default function MemberManagement() {
+
+
+export interface InvitationProps {
+    id: string;
+    organizationId: string;
+    email: string;
+    role: string | null; 
+    status: string;
+    expiresAt: Date | string; 
+    inviterId: string;
+  }
+  
+export interface MemberManagementProps {
+    invitations: InvitationProps[]; 
+  }
+  
+  export default function MemberManagement() {
   const [activeTab, setActiveTab] = useState("members")
 
   return (
@@ -25,7 +42,7 @@ export default function MemberManagement() {
         </TabsContent>
 
         <TabsContent value="invite">
-          <InviteTab />
+          <InviteTab/>
         </TabsContent>
       </Tabs>
     </div>

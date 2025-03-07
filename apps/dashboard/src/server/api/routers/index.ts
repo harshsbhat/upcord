@@ -4,6 +4,7 @@ import { verifyDomain } from "./domains/verifyDomain"
 import { createApiKey } from "./apiKeys/createKey"
 import { revokeApiKey } from "./apiKeys/revokeKey"
 import { createWorkspace } from "./workspaces/createWorkspace"
+import { getInvitations } from "./workspaces/getInvitations"
 
 export const router = t.router({
     domain: t.router({
@@ -15,6 +16,7 @@ export const router = t.router({
         revoke: revokeApiKey
     }),
     workspace: t.router({
-        create: createWorkspace
+        create: createWorkspace,
+        getInvitations: getInvitations
     })
 })
