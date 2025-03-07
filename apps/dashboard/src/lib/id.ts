@@ -10,8 +10,8 @@ const prefixes = {
 } as const;
 
 export function newId<TPrefix extends keyof typeof prefixes>(prefix: TPrefix) {
-  const buf = crypto.getRandomValues(new Uint8Array(20));
-
+  const byteLength = prefix === "workspace" ? 12 : 20; // Use 12 bytes for "workspace", 20 for others
+  const buf = crypto.getRandomValues(new Uint8Array(byteLength));
   /**
    * epoch starts more recently so that the 32-bit number space gives a
    * significantly higher useful lifetime of around 136 years

@@ -23,7 +23,6 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         isNull(table.deletedAt)
       ),
   });
-  console.table(workspaceList)
   
   return (
     <SidebarProvider>
