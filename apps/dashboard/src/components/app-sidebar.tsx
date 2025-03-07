@@ -27,11 +27,23 @@ import {
     SidebarSeparator,
   } from "@/components/ui/sidebar"
   
-  export function AppSidebar() {
+  interface Workspace {
+    id: string;
+    name: string;
+    createdAt: Date;
+    tenantId: string;
+    deletedAt: Date | null;
+  }
+  
+  interface WorkspaceListProps {
+    workspaceList: Workspace[];
+  }
+  
+  export function AppSidebar({ workspaceList }: WorkspaceListProps) {
     return (
       <Sidebar>
         <SidebarHeader>
-          <WorkspaceSelector />
+          <WorkspaceSelector workspaces={workspaceList}/>
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
