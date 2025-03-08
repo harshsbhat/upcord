@@ -1,12 +1,26 @@
-import { getTenant } from "@/lib/getTenant";
+import { db } from "@upcord/db"
+import Client from "./client"
+import { getTenant } from "@/lib/getTenant"
 
-export default async function HelloWorld() {
+export default async function DeveloperSettings() {
+    
     const tenantId = await getTenant()
-    console.log(tenantId)
+    const workspace = await db.query.workspaces.findFirst({
+        where: (table, { and, eq, isNull }) =>
+            and(eq(table.tenantId, tenantId), isNull(table.deletedAt))
+    })
+    const workspaceId = workspace?.id
+    const apiKeys = await db.query.apiKeys.findMany({
+        where: (table, { and, eq, isNull }) =>
+            and(eq(table.workspaceId, workspaceId!), isNull(table.deletedAt))
+    })
+    const apiKeysFormatted = apiKeys.map(key => ({
+        ...key,
+        createdAt: key.createdAt.toISOString(),
+    }));
     return (
-      <div>
-        <h1 className="text-4xl font-bold text-gray-800">Dev/page! 🌍</h1>
-      </div>
-    );
-  }
-  
+    <div>
+        <Client apiKeys={apiKeysFormatted} />
+    </div>
+    )
+}
