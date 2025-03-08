@@ -51,7 +51,7 @@ export default function InviteTab() {
     try {
       await authClient.organization.inviteMember({
         email: email,
-        role: role!
+        role: role!,
       })
       toast({
         title: "Invitation resent",
@@ -94,9 +94,45 @@ export default function InviteTab() {
   if (isLoading) {
     return (
       <Card>
-        <CardContent className="p-6 flex justify-center items-center">
-          <Loader2 className="h-6 w-6 animate-spin" />
-          <span className="ml-2">Loading invitations...</span>
+        <CardContent className="p-6 space-y-6">
+          <div className="space-y-2">
+            <h2 className="text-xl font-semibold">Invite Team Members</h2>
+            <p className="text-muted-foreground">
+              Send invitations to your team members to collaborate on your project.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <div className="h-5 w-24 bg-muted rounded animate-pulse" />
+              <div className="flex gap-2">
+                <div className="relative flex-1 h-10 bg-muted rounded animate-pulse" />
+                <div className="w-[130px] h-10 bg-muted rounded animate-pulse" />
+              </div>
+            </div>
+
+            <div className="pt-4">
+              <div className="w-40 h-10 bg-muted rounded animate-pulse" />
+            </div>
+          </div>
+
+          <div className="border-t pt-6 mt-6">
+            <div className="h-5 w-36 bg-muted rounded animate-pulse mb-4" />
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-md">
+                  <div className="space-y-2">
+                    <div className="h-5 w-40 bg-muted rounded animate-pulse" />
+                    <div className="h-4 w-60 bg-muted rounded animate-pulse" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-16 h-8 bg-muted rounded animate-pulse" />
+                    <div className="w-16 h-8 bg-muted rounded animate-pulse" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </CardContent>
       </Card>
     )
