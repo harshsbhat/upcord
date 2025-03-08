@@ -1,8 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
+import { db } from "@upcord/db";
+import { api } from "@/trpc/server";
 
 export async function POST(req: NextRequest) {
   try {
-
     const body: unknown = await req.json();
 
     if (typeof body !== "object" || body === null) {

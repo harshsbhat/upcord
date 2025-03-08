@@ -6,7 +6,7 @@ const prefixes = {
   workspace: "ws",
   channel: "ch",
   domain: "dm",
-  dnsRecords: "dns"
+  postmark: "pm"
 } as const;
 
 export function newId<TPrefix extends keyof typeof prefixes>(prefix: TPrefix) {

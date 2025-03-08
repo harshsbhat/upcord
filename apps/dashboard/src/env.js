@@ -12,6 +12,8 @@ export const env = createEnv({
     UNKEY_ROOT_KEY: z.string(),
     UNKEY_API_ID: z.string(),
     DATABASE_URL: z.string().url(),
+    POSTMARK_WEBHOOK_URL: z.string().url(),
+    POSTMARK_ACCOUNT_TOKEN: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -31,6 +33,8 @@ export const env = createEnv({
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     UNKEY_ROOT_KEY: process.env.UNKEY_ROOT_KEY,
     UNKEY_API_ID: process.env.UNKEY_API_ID,
+    POSTMARK_ACCOUNT_TOKEN: process.env.POSTMARK_ACCOUNT_TOKEN,
+    POSTMARK_WEBHOOK_URL: process.env.POSTMARK_WEBHOOK_URL,
     NODE_ENV: process.env.NODE_ENV,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
