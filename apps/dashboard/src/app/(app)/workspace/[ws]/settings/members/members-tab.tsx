@@ -11,26 +11,46 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { api } from "@/trpc/react"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
 
 export default function MembersTab() {
   const [searchQuery, setSearchQuery] = useState("")
   const [roleFilter, setRoleFilter] = useState("all")
   const [openRoleFilter, setOpenRoleFilter] = useState(false)
-  const { toast } = useToast()
-
+  const session = authClient.useSession()
+  const orgId = session.data?.session.activeOrganizationId
   const { data: memberList, isLoading, error, refetch, isRefetching } = api.workspace.getMembers.useQuery()
 
-  const handleMemberRoleChange = (memberId: string, newRole: string) => {
-    console.log(memberId, newRole)
+  const handleMemberRoleChange = async(memberId: string, newRole: string) => {
+    try {
+      await authClient.organization.updateMemberRole({
+        memberId: memberId,
+        role: newRole,
+      });
+  
+      toast.success("Member role updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update member role. Please try again.");
+      console.error("Error updating role:", error);
+    }
+  
   }
 
   const handleRemoveMember = async(memberId: string) => {
-    await authClient.organization.removeMember({
-      memberIdOrEmail: memberId,
-      organizationId: "organization-id" 
-  })
+
+    try {
+        toast.error("Workspace not found!")
+      
+      await authClient.organization.removeMember({
+        memberIdOrEmail: memberId,
+        organizationId: orgId!
+      });
+      toast.success("Member role updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update member role. Please try again.");
+      console.error("Error updating role:", error);
+    }
   }
 
   const filteredMembers =
@@ -148,6 +168,16 @@ export default function MembersTab() {
                       All Roles
                     </CommandItem>
                     <CommandItem
+                      value="owner"
+                      onSelect={() => {
+                        setRoleFilter("owner")
+                        setOpenRoleFilter(false)
+                      }}
+                    >
+                      <Check className={cn("mr-2 h-4 w-4", roleFilter === "owner" ? "opacity-100" : "opacity-0")} />
+                      Owner
+                    </CommandItem>
+                    <CommandItem
                       value="admin"
                       onSelect={() => {
                         setRoleFilter("admin")
@@ -158,14 +188,14 @@ export default function MembersTab() {
                       Admin
                     </CommandItem>
                     <CommandItem
-                      value="editor"
+                      value="support"
                       onSelect={() => {
-                        setRoleFilter("editor")
+                        setRoleFilter("support")
                         setOpenRoleFilter(false)
                       }}
                     >
-                      <Check className={cn("mr-2 h-4 w-4", roleFilter === "editor" ? "opacity-100" : "opacity-0")} />
-                      Editor
+                      <Check className={cn("mr-2 h-4 w-4", roleFilter === "support" ? "opacity-100" : "opacity-0")} />
+                      Support Agent
                     </CommandItem>
                     <CommandItem
                       value="viewer"
@@ -230,6 +260,15 @@ export default function MembersTab() {
                             <CommandList>
                               <CommandEmpty>No role found.</CommandEmpty>
                               <CommandGroup>
+                              <CommandItem value="Owner" onSelect={() => handleMemberRoleChange(member.memberId!, "Owner")}>
+                                  <Check
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      member.role === "Owner" ? "opacity-100" : "opacity-0",
+                                    )}
+                                  />
+                                  Owner
+                                </CommandItem>
                                 <CommandItem value="Admin" onSelect={() => handleMemberRoleChange(member.memberId!, "Admin")}>
                                   <Check
                                     className={cn(
@@ -240,16 +279,16 @@ export default function MembersTab() {
                                   Admin
                                 </CommandItem>
                                 <CommandItem
-                                  value="Editor"
-                                  onSelect={() => handleMemberRoleChange(member.memberId!, "Editor")}
+                                  value="support"
+                                  onSelect={() => handleMemberRoleChange(member.memberId!, "support")}
                                 >
                                   <Check
                                     className={cn(
                                       "mr-2 h-4 w-4",
-                                      member.role === "Editor" ? "opacity-100" : "opacity-0",
+                                      member.role === "support" ? "opacity-100" : "opacity-0",
                                     )}
                                   />
-                                  Editor
+                                  Support Agent
                                 </CommandItem>
                                 <CommandItem
                                   value="Viewer"
