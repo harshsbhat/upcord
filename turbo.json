@@ -15,7 +15,9 @@
         "GOOGLE_REDIRECT_URI",
         "RESEND_API_KEY",
         "UNKEY_ROOT_KEY",
-        "UNKEY_API_ID"
+        "UNKEY_API_ID",
+        "POSTMARK_ACCOUNT_TOKEN",
+        "POSTMARK_WEBHOOK_URL"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
