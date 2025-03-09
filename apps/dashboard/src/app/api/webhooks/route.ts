@@ -41,6 +41,12 @@ export async function POST(req: NextRequest) {
 
     console.log("Querying database for postmark entry with hash:", hash);
 
+    const rawPostmarkEntries = await db.query.postmark.findMany({
+        where: (table, { eq }) => eq(table.inboundHash, hash),
+    });
+    
+    console.log("Raw Postmark Entries:", rawPostmarkEntries);
+    
     let postmark;
     try {
       postmark = await db.query.postmark.findFirst({
