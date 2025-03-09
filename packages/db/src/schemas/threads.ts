@@ -9,9 +9,8 @@ export const threads = pgTable("threads", {
     title: text("title").notNull(),
     description: text("description").notNull(),
     status: text("status").default("open"),
-    createdBy: varchar("created_by").references(() => member.id, { onDelete: "cascade" }).notNull(),
+    createdBy: varchar("created_by").notNull(),
     createdAt: timestamp("created_at").defaultNow(),
     deletedAt: timestamp("deleted_at")
   });
 
-  

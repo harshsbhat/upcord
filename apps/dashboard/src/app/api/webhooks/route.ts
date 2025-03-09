@@ -22,11 +22,13 @@ export async function POST(req: NextRequest) {
     const webhookBody = body as WebhookBody;
 
     if (!webhookBody.OriginalRecipient || typeof webhookBody.OriginalRecipient !== "string") {
+      console.error("Missing or invalid OriginalRecipient")
       return NextResponse.json({ error: "Missing or invalid OriginalRecipient" }, { status: 400 });
     }
 
     const hash = webhookBody.OriginalRecipient.split("@")[0];
     if (!hash){
+        console.error("No hash")
         return NextResponse.json({ error: "No Hash found" }, { status: 400 });
     }
     const postmark = await db.query.postmark.findFirst({
@@ -37,6 +39,7 @@ export async function POST(req: NextRequest) {
     const workspaceId = postmark?.workspaceId
 
     if (!workspaceId){
+        console.error("No workspace")
         return NextResponse.json({ error: "We were not able to find your workspace" }, { status: 400 });
     }
 
