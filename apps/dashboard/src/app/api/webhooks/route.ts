@@ -1,6 +1,7 @@
 import { newId } from "@/lib/id";
 import { db, schema } from "@upcord/db";
 import { NextResponse, NextRequest } from "next/server";
+import { title } from "process";
 
 interface WebhookBody {
     OriginalRecipient?: string;
@@ -49,6 +50,7 @@ export async function POST(req: NextRequest) {
     const subject = webhookBody.Subject;
     const From = webhookBody.From
 
+    console.log(workspaceId, subject, textBody, From)
     await db.insert(schema.threads).values({
         id: threadId,
         workspaceId: workspaceId,
