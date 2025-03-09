@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing or invalid OriginalRecipient" }, { status: 400 });
     }
 
+    console.log(webhookBody.OriginalRecipient)
     const hash = webhookBody.OriginalRecipient.split("@")[0];
     console.log("Extracted hash:", hash);
 
