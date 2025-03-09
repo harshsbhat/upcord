@@ -20,7 +20,8 @@ export default function Client({ hashEmail }: ClientProps) {
   }
 
   return (
-    <Card className="max-w-md border-0 shadow-sm">
+    <div className="flex justify-center items-center">
+    <Card className="w-2/3 border-0 shadow-sm">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Receive emails</CardTitle>
       </CardHeader>
@@ -37,10 +38,9 @@ export default function Client({ hashEmail }: ClientProps) {
             </Button>
           </div>
         </div>
-
-        <p className="text-sm text-green-600 font-medium">Inbound email forwarding is set up</p>
       </CardContent>
     </Card>
+    </div>
   )
 }
 

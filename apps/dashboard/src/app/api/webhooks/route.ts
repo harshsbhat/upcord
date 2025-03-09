@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
-import { db } from "@upcord/db";
-import { api } from "@/trpc/server";
+
+interface WebhookBody {
+  OriginalRecipient?: string;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -10,9 +12,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid JSON structure" }, { status: 400 });
     }
 
-    console.log("Received webhook body:", body);
+    // Type assertion with safety check
+    const webhookBody = body as WebhookBody;
 
-    return NextResponse.json({ received: body }, { status: 200 });
+    if (!webhookBody.OriginalRecipient || typeof webhookBody.OriginalRecipient !== "string") {
+      return NextResponse.json({ error: "Missing or invalid OriginalRecipient" }, { status: 400 });
+    }
+
+    // Extract the hash safely
+    const hash = webhookBody.OriginalRecipient.split("@")[0];
+
+    console.log("Hash:", hash);
+
+    return NextResponse.json({ received: hash }, { status: 200 });
   } catch (error) {
     console.error("Error processing webhook:", error);
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
