@@ -1,5 +1,6 @@
 import { newId } from "@/lib/id";
 import { db, schema } from "@upcord/db";
+import { error } from "console";
 import { NextResponse, NextRequest } from "next/server";
 import { title } from "process";
 
@@ -50,14 +51,16 @@ export async function POST(req: NextRequest) {
     const subject = webhookBody.Subject;
     const From = webhookBody.From
 
-    console.log(workspaceId, subject, textBody, From)
     await db.insert(schema.threads).values({
         id: threadId,
         workspaceId: workspaceId,
         title: subject ?? "No subject",
         description: textBody ?? "No body",
         createdBy: From,
-      });
+      })
+      .catch(() => {
+         console.log(From)
+      })
     
 
     return NextResponse.json({ received: hash }, { status: 200 });
