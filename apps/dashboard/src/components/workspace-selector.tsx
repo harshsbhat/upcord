@@ -37,10 +37,11 @@ export function WorkspaceSelector({ workspaces }: WorkspaceSelectorProps) {
     }
   }, [workspaces, org])
 
-  const handleWorkspaceSelect = (workspaceName: string) => {
+  const handleWorkspaceSelect = async(workspaceName: string) => {
     const selectedWorkspace = workspaces.find((workspace) => workspace.name === workspaceName)
     if (selectedWorkspace) {
       setCurrentWorkspaceId(selectedWorkspace.id)
+      
       router.push(`/workspace/${selectedWorkspace.id}`)
     }
     setOpen(false)

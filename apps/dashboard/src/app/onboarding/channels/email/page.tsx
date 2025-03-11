@@ -22,15 +22,10 @@ export default async function Email() {
             and(eq(table.workspaceId, workspaceId!), isNull(table.deletedAt))
     })
 
-    if(!domain) {
-        return redirect("/domains/add")
-    }
-
-    const dnsRecords = domain.dnsRecords as unknown as DNSRecord[]; 
     const hash = postmark?.inboundHash;
     const hashEmail = `${hash}@inbound.postmarkapp.com`;
     return (
-        <Client hashEmail={hashEmail} dnsRecords={dnsRecords} />
+        <Client hashEmail={hashEmail} />
     );
   }
   

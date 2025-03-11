@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { Toaster as Sonner } from "@/components/ui/sonner"
-
+import { ThemeProvider } from "@/components/theme-provider"
 import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
@@ -19,7 +19,14 @@ export default function RootLayout({
     <html lang="en" className={`${GeistSans.variable}`}>
       
       <body>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        </ThemeProvider>
         <Toaster />
         <Sonner />
       </body>

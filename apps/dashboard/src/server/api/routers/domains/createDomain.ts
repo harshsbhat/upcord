@@ -73,6 +73,8 @@ export const createDomain = t.procedure
 
           return { 
             id: domainId, 
+            dnsRecords: JSON.stringify(response.data?.records),
+            verified: false,
           };
         })
         .catch((dbError: unknown) => {

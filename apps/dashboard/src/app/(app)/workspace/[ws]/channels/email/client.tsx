@@ -6,11 +6,22 @@ import { Button } from "@/components/ui/button"
 import { Check, Copy } from "lucide-react"
 
 
+export interface DNSRecord {
+    record: string;
+    name: string;
+    type: string;
+    ttl: string;
+    status: string;
+    value: string;
+    priority?: number; 
+}
+
 interface ClientProps {
     hashEmail: string;
+    dnsRecords: DNSRecord[];
   }
 
-export default function Client({ hashEmail }: ClientProps) {
+export default function Client({ hashEmail, dnsRecords }: ClientProps) {
   const [copied, setCopied] = useState(false)
 
   const copyToClipboard = () => {
